@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Namoro</title>
+    <link href="https://www.dafont.com/pt/mf-love-song.charmap?back=theme" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f9e8eb;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff; 
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            position: relative; 
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #E64B46; 
+            text-align: center;
+             }
+
+             @font-face {
+        font-family: 'Mf Love Song';
+        src: url('Mf Love Song.ttf') format('truetype');
+        /* Substitua 'caminho/para/mf-love-song.ttf' pelo caminho real para o arquivo de fonte na sua pasta 'fonts' */
+    }
+        h2{
+            margin-bottom: 10px;
+            color: #E64B46;
+            font-family:'Mf Love Song',cursive;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            color: #E64B46; 
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #E64B46; 
+            color: #fff; 
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #f6352f;
+        }
+
+        #resultados {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffffff; 
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Namoro</h1>
+        <div class="heart right">
+            <img src="coração.png" alt="Coração"style="position:absolute ;right: 94%; height: 70%; top: 18%;border-radius: 10px;">
+        </div>
+        <div class="heart right">
+            <img src="coração.png" alt="Coração"style="position:absolute ;left: 94%; height: 70%; top: 18%;border-radius: 10px;transform: scaleX(-1);">
+        </div>
+
+        <form id="datingCalculator">
+            <label for="suaIdade">Sua idade:</label>
+            <input type="number" id="suaIdadeAnos" name="suaIdadeAnos" placeholder="Anos" required>
+            <input type="number" id="suaIdadeMeses" name="suaIdadeMeses" placeholder="Meses" required>
+            <br>
+
+            <label for="idadeParceiro">Idade do seu parceiro(a):</label>
+            <input type="number" id="idadeParceiroAnos" name="idadeParceiroAnos" placeholder="Anos" required>
+            <input type="number" id="idadeParceiroMeses" name="idadeParceiroMeses" placeholder="Meses" required>
+            <br>
+
+            <label for="idadeTerceiro">Idade do terceiro (opcional):</label>
+            <input type="number" id="idadeTerceiroAnos" name="idadeTerceiroAnos" placeholder="Anos">
+            <input type="number" id="idadeTerceiroMeses" name="idadeTerceiroMeses" placeholder="Meses">
+            <br>
+
+            <button type="button" onclick="calcularNamoro()">Calcular</button>
+        </form>
+
+        <h2>Resultados:</h2>
+        <p id="resultados"></p>
+    </div>
+
+    <script>
+        function atualizarMeses(idadeAnosId, idadeMesesId) {
+            const anos = document.getElementById(idadeAnosId).value;
+            const meses = anos * 12;
+            document.getElementById(idadeMesesId).value = meses;
+        }
+
+        document.getElementById('suaIdadeAnos').addEventListener('input', function() {
+            atualizarMeses('suaIdadeAnos', 'suaIdadeMeses');
+        });
+
+        document.getElementById('idadeParceiroAnos').addEventListener('input', function() {
+            atualizarMeses('idadeParceiroAnos', 'idadeParceiroMeses');
+        });
+
+        document.getElementById('idadeTerceiroAnos').addEventListener('input', function() {
+            atualizarMeses('idadeTerceiroAnos', 'idadeTerceiroMeses');
+        });
+
+        function calcularNamoro() {
+            const suaIdadeAnos = parseInt(document.getElementById('suaIdadeAnos').value);
+            const suaIdadeMeses = parseInt(document.getElementById('suaIdadeMeses').value);
+            const idadeParceiroAnos = parseInt(document.getElementById('idadeParceiroAnos').value);
+            const idadeParceiroMeses = parseInt(document.getElementById('idadeParceiroMeses').value);
+            const idadeTerceiroAnos = parseInt(document.getElementById('idadeTerceiroAnos').value);
+            const idadeTerceiroMeses = parseInt(document.getElementById('idadeTerceiroMeses').value);
+
+            // Convertendo anos e meses para total de meses e arredondando para cima
+            const totalMesesSuaIdade = Math.ceil(suaIdadeAnos * 12 + suaIdadeMeses);
+            const totalMesesParceiro = Math.ceil(idadeParceiroAnos * 12 + idadeParceiroMeses);
+            const totalMesesTerceiro = idadeTerceiroAnos && idadeTerceiroMeses ? Math.ceil(idadeTerceiroAnos * 12 + idadeTerceiroMeses) : null;
+
+            // Convertendo de volta para anos e meses
+            const totalAnosSuaIdade = Math.ceil(totalMesesSuaIdade / 12);
+            const totalAnosParceiro = Math.ceil(totalMesesParceiro / 12);
+            const totalAnosTerceiro = totalMesesTerceiro ? Math.ceil(totalMesesTerceiro / 12) : null;
+
+            // Calculando a idade mínima para namoro
+            const idadeMinNamoro = Math.floor(suaIdadeAnos / 2) + 7;
+            const mesesMinNamoro = idadeMinNamoro * 12;
+            // Calculando a idade máxima para namoro
+            const idadeMaxNamoro = (totalAnosSuaIdade - 7) * 2;
+
+            let resultados = `Sua idade mínima para namoro é ${idadeMinNamoro} anos.<br>`;
+            resultados += `Sua idade máxima para namoro é ${idadeMaxNamoro} anos.<br>`;
+
+            // Verificando se o casal pode namorar
+            if (totalAnosSuaIdade <= 100 && totalAnosParceiro <= 100) {
+                if (totalAnosParceiro >= idadeMinNamoro && totalAnosParceiro <= idadeMaxNamoro) {
+                    if (suaIdadeAnos >= 13 && idadeParceiroAnos >= 13) {
+                        resultados += `Você e seu parceiro(a) podem namorar.<br>`;
+                    } else {
+                        resultados += `Seu parceiro(a) é muito jovem para namorar.<br>`;
+                    }
+                }
+            } else {
+                resultados += `Um dos parceiros tem mais de 100 anos, não é permitido.<br>`;
+            }
+
+            // Verificando se o trisal pode namorar
+            if (totalAnosTerceiro) {
+                if (totalAnosSuaIdade <= 100 && totalAnosTerceiro <= 100) {
+                    if (totalAnosTerceiro >= idadeMinNamoro && totalAnosTerceiro <= idadeMaxNamoro) {
+                        if (suaIdadeAnos >= 13 && idadeParceiroAnos >= 13 && idadeTerceiroAnos >= 13) {
+                            resultados += `Você, seu parceiro(a) e o terceiro podem namorar.<br>`;
+                        } else {
+                            resultados += `Você, seu parceiro(a) ou o terceiro são muito jovens para namorar.<br>`;
+                        }
+                    }
+                } else {
+                    resultados += `Um dos parceiros tem mais de 100 anos, não é permitido.<br>`;
+                }
+            }
+
+            document.getElementById('resultados').innerHTML = resultados;
+        }
+    </script>
+</body>
+</html>
